@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Third Unity Game</title>
+  <style>
+    /* Remove scrollbars and fill viewport */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000; /* optional: background color */
+    }
+
+    /* Unity game container fullscreen */
+    #gameContainer {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      position: relative;
+    }
+
+    .logo, .progress {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameContainer"></div>
+
+  <!-- Unity loader scripts -->
+  <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/2.7.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/UnityProgress.js"></script>
+
+  <script>
+    var gameInstance;
+    window.onload = function () {
+      gameInstance = UnityLoader.instantiate(
+        "gameContainer",
+        "https://cdn.jsdelivr.net/gh/n-101-1/1@main/2.7.json",
+        {
+          onProgress: UnityProgress,
+          Module: {
+            onRuntimeInitialized: function () {
+              UnityProgress(gameInstance, "complete");
+            }
+          }
+        }
+      );
+    };
+
+    // Firebase scripts initialization (if needed)
+    function initializeFireBase() {
+      if (typeof firebase !== "undefined") {
+        firebase.initializeApp(firebaseConfig);
+      }
+    }
+    initializeFireBase();
+
+    function showAds() { console.log("show ads"); }
+    function requestNewAd() { unityAdFinishedCallback(); }
+    function unityAdFinishedCallback() {
+      try {
+        if (gameInstance) gameInstance.SendMessage("AdsManager", "OnWebCallback");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  </script>
+
+  <!-- Firebase scripts -->
+  <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/1firebase-app.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/1firebase-auth.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/1firebase-firestore.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/1firebase.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/1login.js?v=2"></script>
+  <script src="https://cdn.jsdelivr.net/gh/n-101-1/1@main/1firestore.js"></script>
+
+</body>
+</html>
